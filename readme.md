@@ -6,6 +6,12 @@
 
 https://github.com/lerocha/chinook-database
 
+```
+user: postgres
+pass: postgres
+database: chinook
+```
+
 ### Configure PG
 
 _postgresql.conf_
