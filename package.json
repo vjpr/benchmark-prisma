@@ -1,0 +1,18 @@
+{
+  "name": "benchmark-prisma",
+  "version": "0.1.0",
+  "dependencies": {
+    "@prisma/client": "^2.25.0-dev.3",
+    "benchmark": "^2.1.4",
+    "measured": "^1.1.0",
+    "measured-core": "^2.0.0",
+    "metrics": "^0.1.21",
+    "p-times": "^3.0.0",
+    "prettier": "^2.3.0",
+    "pretty-ms": "^7.0.1"
+  },
+  "devDependencies": {
+    "prisma": "^2.25.0-dev.3",
+    "ts-node": "^10.0.0"
+  }
+}

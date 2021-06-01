@@ -1,0 +1,4 @@
+node_modules
+.idea
+prisma/client
+prisma/client-nonapi
