@@ -1,9 +1,14 @@
 {
   "name": "benchmark-prisma",
   "version": "0.1.0",
+  "scripts": {
+    "start": "ts-node -T ."
+  },
   "dependencies": {
     "@prisma/client": "^2.25.0-dev.3",
+    "asciichart": "^1.5.25",
     "benchmark": "^2.1.4",
+    "chalk": "^4.1.1",
     "measured": "^1.1.0",
     "measured-core": "^2.0.0",
     "metrics": "^0.1.21",
