@@ -5,11 +5,11 @@
     "start": "ts-node -T ."
   },
   "dependencies": {
-    "@prisma/client": "^2.25.0-dev.3",
+    "@prisma/client": "^2.25.0-dev.9",
     "asciichart": "^1.5.25",
     "benchmark": "^2.1.4",
+    "benny": "^3.6.15",
     "chalk": "^4.1.1",
-    "measured": "^1.1.0",
     "measured-core": "^2.0.0",
     "metrics": "^0.1.21",
     "p-times": "^3.0.0",
@@ -17,7 +17,8 @@
     "pretty-ms": "^7.0.1"
   },
   "devDependencies": {
-    "prisma": "^2.25.0-dev.3",
-    "ts-node": "^10.0.0"
+    "prisma": "^2.25.0-dev.9",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.2"
   }
 }

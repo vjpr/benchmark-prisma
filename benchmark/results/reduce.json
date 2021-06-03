@@ -1,0 +1,27 @@
+{
+  "name": "Prisma",
+  "date": "2021-06-03T11:20:01.598Z",
+  "version": "1.0.0",
+  "results": [
+    {
+      "name": "NAPI",
+      "ops": 135,
+      "margin": 38.88,
+      "percentSlower": 8.78
+    },
+    {
+      "name": "NO NAPI",
+      "ops": 148,
+      "margin": 2.65,
+      "percentSlower": 0
+    }
+  ],
+  "fastest": {
+    "name": "NO NAPI",
+    "index": 1
+  },
+  "slowest": {
+    "name": "NAPI",
+    "index": 0
+  }
+}

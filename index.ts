@@ -1,7 +1,6 @@
-import {PrismaClient as PrismaClientNapi} from './prisma/client'
-import {PrismaClient as PrismaClientNoNapi} from './prisma/client-nonapi'
-import pTimes from 'p-times'
-import {performance} from 'perf_hooks'
+import {printResults, runTest, sampleData} from './bench'
+import bennyBenchmark from './benny'
+
 const prettyMs = require('pretty-ms')
 const Benchmark = require('benchmark')
 const measured = require('measured-core')
@@ -13,6 +12,11 @@ main()
   .catch(e => console.error(e))
 
 async function main() {
+  //await benny()
+  await custom()
+}
+
+async function custom() {
   const a = await runTest(false)
   const b = await runTest(true)
   console.log('No napi')
@@ -31,63 +35,6 @@ async function main() {
   )
 }
 
-function sampleData(oldArr, width) {
-  const factor = Math.round(oldArr.length / width)
-  return oldArr.filter(function (value, index, Arr) {
-    return index % factor == 0
-  })
+async function benny() {
+  await bennyBenchmark()
 }
-
-async function runTest(useNapi) {
-  const PrismaClient = useNapi ? PrismaClientNapi : PrismaClientNoNapi
-  const prisma = new PrismaClient()
-
-  const histogram = new measured.Histogram()
-
-  const data = []
-
-  await pTimes(
-    1000,
-    async () => {
-      const start = now()
-      const results = await prisma.customer.findMany()
-      const duration = now() - start
-      histogram.update(duration)
-      data.push(duration)
-    },
-    {concurrency: 100},
-  )
-  const results = histogram.toJSON()
-
-  await prisma.$disconnect()
-  return {results, data}
-}
-
-function printResults({results}) {
-  for (const key in results) {
-    if (key === 'count') continue
-    results[key] = prettyMs(results[key])
-  }
-  console.log(results)
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-function now() {
-  return performance.now()
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-//const suite = new Benchmark.Suite()
-//suite
-//  .add('', () => {})
-//  .on('cycle', function (event) {
-//    console.log(String(event.target))
-//  })
-//  .on('complete', function () {
-//    console.log('done')
-//  })
-//  .run()
-
-////////////////////////////////////////////////////////////////////////////////

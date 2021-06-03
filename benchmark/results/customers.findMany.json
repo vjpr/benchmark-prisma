@@ -1,0 +1,27 @@
+{
+  "name": "customers.findMany",
+  "date": "2021-06-03T12:13:32.093Z",
+  "version": "1.0.0",
+  "results": [
+    {
+      "name": "NAPI",
+      "ops": 157,
+      "margin": 4.18,
+      "percentSlower": 0
+    },
+    {
+      "name": "NO NAPI",
+      "ops": 118,
+      "margin": 2.79,
+      "percentSlower": 24.84
+    }
+  ],
+  "fastest": {
+    "name": "NAPI",
+    "index": 0
+  },
+  "slowest": {
+    "name": "NO NAPI",
+    "index": 1
+  }
+}
