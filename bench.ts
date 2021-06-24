@@ -23,6 +23,16 @@ export async function runTest(useNapi) {
 
   const data = []
 
+  // warmup
+  await pTimes(
+    80,
+    async () => {
+      await test(prisma)
+    },
+    { concurrency: 8 }
+  )
+
+  //test
   await pTimes(
     1000,
     async () => {
@@ -32,7 +42,7 @@ export async function runTest(useNapi) {
       histogram.update(duration)
       data.push(duration)
     },
-    {concurrency: 100},
+    {concurrency: 8},
   )
   const results = histogram.toJSON()
 
@@ -47,8 +57,30 @@ export function setup(useNapi) {
 }
 
 export async function test(prisma) {
-  const results = await prisma.customer.findMany()
+  const selection = Array.from({length: 1000}, () => Math.floor(Math.random() * 4000))
+  const results = await prisma.track.findFirst({ where: { TrackId: { in: selection } } })
   return results
+}
+
+export function printResultsCsv(results) {
+  var fields = Object.keys(results[0].results)
+  var replacer = function(key, value) { return value === null ? '' : value }
+  var csv = results.map(function(row){
+    return fields.map(function(fieldName){
+      return JSON.stringify(row.results[fieldName], replacer)
+    }).join(',')
+  })
+  csv.unshift(fields.join(',')) // add header column
+  csv = csv.join('\r\n');
+  console.log(csv)
+
+  console.log("---- Graph ----")
+
+  var csv = results.map(function(row) {
+    return row.data.join(',')
+  })
+
+  console.log(csv.join('\r\n'))
 }
 
 export function printResults({results}) {

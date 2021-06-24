@@ -1,4 +1,4 @@
-import {printResults, runTest, sampleData} from './bench'
+import {printResults, printResultsCsv, runTest, sampleData} from './bench'
 import bennyBenchmark from './benny'
 
 const prettyMs = require('pretty-ms')
@@ -12,8 +12,14 @@ main()
   .catch(e => console.error(e))
 
 async function main() {
-  //await benny()
+  //await customCsv()
   await custom()
+}
+
+async function customCsv() {
+  const nApi = await runTest(false)
+  const binary = await runTest(true)
+  printResultsCsv([nApi, binary])
 }
 
 async function custom() {
