@@ -1,4 +1,4 @@
-import {printResults, printResultsCsv, runTest, sampleData} from './bench'
+import {printResults, printResultsCsv, runTest, sampleData, test, setup} from './bench'
 import bennyBenchmark from './benny'
 
 const prettyMs = require('pretty-ms')
@@ -23,8 +23,8 @@ async function customCsv() {
 }
 
 async function custom() {
-  const a = await runTest(false)
   const b = await runTest(true)
+  const a = await runTest(false)
   console.log('No napi')
   printResults(a)
   console.log('Napi')

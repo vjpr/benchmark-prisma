@@ -1,7 +1,7 @@
 version: "3"
 services:
   ubuntu:
-    image: ubuntu-test
+    image: ubuntu-rust-test-image
     user: pimeys
     volumes:
       - /home/pimeys/code:/code
