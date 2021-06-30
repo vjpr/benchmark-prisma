@@ -16,34 +16,36 @@ export function sampleData(oldArr, width) {
   })
 }
 
-export async function runTest(useNapi) {
+export async function runTest(useNapi, concurrency, f) {
   const {prisma} = await setup(useNapi)
   await prisma.$connect();
 
   const histogram = new measured.Histogram()
-
   const data = []
 
   // warmup
   await pTimes(
     100,
     async () => {
-      await test(prisma)
+      await f(prisma)
     },
-    { concurrency: 48 }
+    { concurrency: 8 }
   )
 
   //test
   await pTimes(
     80,
     async () => {
-      const start = now()
-      await test(prisma)
-      const duration = now() - start
+      let length = data.push(undefined)
+
+      const start = performance.now()
+      await f(prisma)
+      const duration = performance.now() - start
+
       histogram.update(duration)
-      data.push(duration)
+      data[length-1] = duration
     },
-    {concurrency: 8},
+    {concurrency: concurrency},
   )
   const results = histogram.toJSON()
 
@@ -55,11 +57,6 @@ export function setup(useNapi) {
   const PrismaClient = useNapi ? PrismaClientNapi : PrismaClientNoNapi
   const prisma = new PrismaClient()
   return {prisma}
-}
-
-export async function test(prisma) {
-  var results = await prisma.track.findMany()
-  return results
 }
 
 export function printResultsCsv(results) {

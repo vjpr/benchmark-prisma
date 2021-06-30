@@ -1,0 +1,28 @@
+name: Cargo tests
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+jobs:
+  benchmark:
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: Populate Database
+        run: docker-compose -f docker-compose.yml up -d chinook
+
+      - name: Sleep for 2 minutes
+        shell: bash
+        run: sleep 120s
+
+      - run: |
+          npm install
+          npx prisma generate
+          npx ts-node -T .
